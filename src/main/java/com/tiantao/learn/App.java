@@ -24,6 +24,8 @@ public class App
             SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
             SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
+            sqlSession.selectList("selectUser",1L);
+            sqlSession.update("update");
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             System.out.println(userMapper);
         } catch (IOException e) {

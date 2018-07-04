@@ -1,6 +1,6 @@
 package com.tiantao.learn;
 
-import com.tiantao.learn.mappers.UserMapper;
+import com.tiantao.learn.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -24,10 +24,23 @@ public class App
             SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
             SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            sqlSession.selectList("selectUser",1L);
-            sqlSession.update("update");
-            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            System.out.println(userMapper);
+            User user = sqlSession.selectOne("selectUser",1L);
+            System.out.println(user.getName());
+            user = sqlSession.selectOne("selectUser",1L);
+
+
+            SqlSession sqlSession1 = sqlSessionFactory.openSession();
+            sqlSession1.selectOne("selectUser",1L);
+
+            System.out.println(user.getName());
+            user = sqlSession.selectOne("selectUser",1L);
+            System.out.println(user.getName());
+            user.setName("autotester1");
+            sqlSession.update("updateUserName",user);
+            user = sqlSession.selectOne("selectUser",1L);
+            System.out.println(user.getName());
+            //UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            //System.out.println(userMapper);
         } catch (IOException e) {
             e.printStackTrace();
         }

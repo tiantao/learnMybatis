@@ -7,4 +7,6 @@ import com.tiantao.learn.pojo.User;
  */
 public interface UserMapper {
     public User selectUser(Long id);
+
+    public void updateUserName(User user);
 }

@@ -13,11 +13,10 @@ import java.io.InputStream;
  * Hello world!
  *
  */
-public class App 
+public class LearnCache
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
         String resource = "mybatis-config.xml";
         try {
             InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -25,16 +24,9 @@ public class App
             SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
             User user = sqlSession.selectOne("selectUser",1L);
-            System.out.println(user.getName());
-            user = sqlSession.selectOne("selectUser",1L);
-
-
+            sqlSession.commit(); //这里从网上看到的，的确是不加commit不行，还以为存到别的地方了呢。
             SqlSession sqlSession1 = sqlSessionFactory.openSession();
             sqlSession1.selectOne("selectUser",1L);
-
-            System.out.println(user.getName());
-            user = sqlSession.selectOne("selectUser",1L);
-            System.out.println(user.getName());
             user.setName("autotester1");
             sqlSession.update("updateUserName",user);
             user = sqlSession.selectOne("selectUser",1L);
